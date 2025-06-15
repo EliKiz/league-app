@@ -1,3 +1,14 @@
 header {
   background: transparent;
-} 
+}
+
+.header__logo-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header__logo-img {
+  height: 48px;
+  width: auto;
+}
