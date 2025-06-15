@@ -13,6 +13,17 @@
   margin-bottom: 24px;
 }
 
+@media (max-width: 600px) {
+  .leagues-page__controls {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .leagues-page__search,
+  .leagues-page__select {
+    width: 100% !important;
+  }
+}
+
 .leagues-page__search {
   flex: 1;
 }

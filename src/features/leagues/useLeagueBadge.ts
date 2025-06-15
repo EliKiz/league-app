@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 interface BadgeData {
   strBadge: string;
@@ -15,14 +15,19 @@ export const useLeagueBadge = () => {
     setError(null);
     setBadge(null);
     try {
-      const res = await fetch(`https://www.thesportsdb.com/api/v1/json/3/search_all_seasons.php?badge=1&id=${leagueId}`);
+      const res = await fetch(
+        `https://www.thesportsdb.com/api/v1/json/3/search_all_seasons.php?badge=1&id=${leagueId}`
+      );
       const json = await res.json();
       const seasons = json.seasons || [];
-      // Берём последний badge, если есть
       const last = seasons.reverse().find((s: BadgeData) => s.strBadge);
       setBadge(last?.strBadge || null);
-    } catch (e: any) {
-      setError(e.message || 'Unknown error');
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        setError(e.message);
+      } else {
+        setError("Unknown error");
+      }
     } finally {
       setLoading(false);
     }
@@ -35,4 +40,4 @@ export const useLeagueBadge = () => {
   };
 
   return { badge, loading, error, fetchBadge, reset };
-}; 
+};

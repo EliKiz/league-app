@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useFetchLeagues } from '../../shared/api/useFetchLeagues';
 import type { ApiLeague } from '../../shared/api/useFetchLeagues';
+import { useDebounce } from '../../shared/lib/useDebounce';
 
 export interface League {
   id: string;
@@ -23,15 +24,16 @@ export const useLeagues = () => {
   const leagues = useMemo(() => data.map(mapApiLeague), [data]);
   const sports = useMemo(() => [ALL_SPORTS, ...Array.from(new Set(leagues.map(l => l.sport)))], [leagues]);
   const [filter, setFilter] = useState<{ query: string; sport: string }>({ query: '', sport: ALL_SPORTS });
+  const debouncedQuery = useDebounce(filter.query, 400);
 
   const filteredLeagues = useMemo(() => {
-    const isDefault = filter.sport === ALL_SPORTS && !filter.query.trim();
+    const isDefault = filter.sport === ALL_SPORTS && !debouncedQuery.trim();
     if (isDefault) return [];
     return leagues.filter(l =>
-      l.name.toLowerCase().includes(filter.query.toLowerCase()) &&
+      l.name.toLowerCase().includes(debouncedQuery.toLowerCase()) &&
       (filter.sport === ALL_SPORTS || l.sport === filter.sport)
     );
-  }, [leagues, filter]);
+  }, [leagues, filter.sport, debouncedQuery]);
 
   return {
     leagues,
