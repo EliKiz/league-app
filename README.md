@@ -1,5 +1,7 @@
 # Home Assignment - FE - Sports Leagues
 
+![App Screenshot](src/assets/mainPage.png)
+
 ## Overview
 
 This project is a single-page application (SPA) that displays sports leagues with filtering and badge lookup, simulating a simplified component from an online bookmaker platform. The app is built with React, TypeScript, Ant Design, and follows FSD (Feature-Sliced Design) architecture. API responses are cached for performance.
