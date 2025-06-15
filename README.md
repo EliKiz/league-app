@@ -1,54 +1,64 @@
-# React + TypeScript + Vite
+# Home Assignment - FE - Sports Leagues
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+This project is a single-page application (SPA) that displays sports leagues with filtering and badge lookup, simulating a simplified component from an online bookmaker platform. The app is built with React, TypeScript, Ant Design, and follows FSD (Feature-Sliced Design) architecture. API responses are cached for performance.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features & Requirements
 
-## Expanding the ESLint configuration
+- **Fetch and display a list of sports leagues** from [TheSportsDB All Leagues API](https://www.thesportsdb.com/api/v1/json/3/all_leagues.php)
+- **Display fields:**
+  - `strLeague`
+  - `strSport`
+  - `strLeagueAlternate`
+- **Search bar** to filter leagues by name
+- **Dropdown** to filter by sport type (e.g., Soccer, Basketball, Motorsport)
+- **Component-based architecture** (FSD)
+- **Responsive UI** (mobile & desktop)
+- **League card click or "Show Badge" button** calls the Season Badge API and displays a badge in a modal
+- **API responses are cached** (React Query)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tech Stack
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- **React** + **TypeScript**
+- **Ant Design** (UI components)
+- **@tanstack/react-query** (API integration & caching)
+- **FSD (Feature-Sliced Design)**
+- **Vite** (build tool)
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## API
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **All Leagues:**  
+  `https://www.thesportsdb.com/api/v1/json/3/all_leagues.php`
+- **Badge Lookup:**  
+  `https://www.thesportsdb.com/api/v1/json/3/search_all_seasons.php?badge=1&id=<id>`
+- [API Documentation](https://www.thesportsdb.com/free_sports_api)
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## Architecture & Design Decisions
+
+- **FSD (Feature-Sliced Design):**
+  - `pages/` — page components
+  - `features/` — business logic (filtering, badge fetching)
+  - `entities/` — (reserved for future domain entities)
+  - `shared/` — reusable hooks, API, UI primitives
+  - `ui/` — presentational components (cards, header)
+- **React Query** is used for all API calls and caching (leagues and badges)
+- **Debounce** is used for search input to avoid excessive API/filtering calls
+- **Responsive layout**: filters stack vertically on mobile
+- **SVG logo** is used for best quality and as favicon
+
+## How to Run
+
+1. `npm install`
+2. `npm run dev`
+3. Open [http://localhost:5173](http://localhost:5173)
+
+## AI Tools Used
+
+- **ChatGPT (OpenAI):**
+  - Used for code scaffolding, FSD architecture planning, and UI/UX suggestions
+
+## Notes
+
+- The project is fully runnable and all requirements from the assignment are covered.
+- If you have any questions or need clarifications, feel free to reach out!
