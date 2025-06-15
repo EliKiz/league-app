@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
 export interface ApiLeague {
   idLeague: string;
@@ -8,23 +8,19 @@ export interface ApiLeague {
 }
 
 export const useFetchLeagues = () => {
-  const [data, setData] = useState<ApiLeague[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data, isLoading, isError, error } = useQuery<{ leagues: ApiLeague[] }, Error>({
+    queryKey: ['leagues'],
+    queryFn: async () => {
+      const res = await fetch('https://www.thesportsdb.com/api/v1/json/3/all_leagues.php');
+      if (!res.ok) throw new Error('Failed to fetch leagues');
+      return res.json();
+    },
+    staleTime: 1000 * 60 * 10,
+  });
 
-  useEffect(() => {
-    setLoading(true);
-    fetch('https://www.thesportsdb.com/api/v1/json/3/all_leagues.php')
-      .then(res => res.json())
-      .then(json => {
-        setData(json.leagues || []);
-        setLoading(false);
-      })
-      .catch(e => {
-        setError(e.message || 'Unknown error');
-        setLoading(false);
-      });
-  }, []);
-
-  return { data, loading, error };
+  return {
+    data: data?.leagues || [],
+    loading: isLoading,
+    error: isError ? error?.message || 'Unknown error' : null,
+  };
 }; 
